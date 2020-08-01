@@ -6,6 +6,50 @@ Set-StrictMode -Version latest
 
 <#
 #>
+Function Invoke-ScriptRetry
+{
+    [CmdletBinding()]
+    param(
+        [Parameter(mandatory=$false)]
+        [ValidateNotNull()]
+        [int]$Attempts = 10,
+
+        [Parameter(mandatory=$false)]
+        [ValidateNotNull()]
+        [int]$WaitSeconds = 5,
+
+        [Parameter(mandatory=$true)]
+        [ValidateNotNull()]
+        [ScriptBlock]$Script
+    )
+
+    process
+    {
+        $attempt = 1
+        while ($true)
+        {
+            try {
+                & $Script
+                break
+            } catch {
+                Write-Information "Error running script block (attempt $attempt): $_"
+                if ($attempt -ge $Attempts)
+                {
+                    throw $_
+                } else {
+                    $_
+                }
+            }
+
+            Write-Information "Waiting $WaitSeconds seconds..."
+            Start-Sleep $WaitSeconds
+            $attempt++
+        }
+    }
+}
+
+<#
+#>
 Function New-ReleaseEnvVM
 {
     [CmdletBinding()]
