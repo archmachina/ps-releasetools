@@ -37,7 +37,7 @@ Function Invoke-ScriptRetry
                 {
                     throw $_
                 } else {
-                    $_
+                    $_ | Out-String
                 }
             }
 
