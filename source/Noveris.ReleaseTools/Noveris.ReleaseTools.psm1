@@ -6,6 +6,38 @@ Set-StrictMode -Version latest
 
 <#
 #>
+Function Get-VMIPv4Addresses
+{
+    [CmdletBinding()]
+    param(
+        [Parameter(mandatory=$true)]
+        [ValidateNotNull()]
+        [VMware.VimAutomation.ViCore.Impl.V1.VM.UniversalVirtualMachineImpl]$VM,
+
+        [Parameter(mandatory=$false)]
+        [switch]$First = $false
+    )
+
+    process
+    {
+        $addresses = $VM.Guest.IPAddress -match "^.*[.].*[.].*[.].*$"
+
+        if ($First)
+        {
+            if (($addresses | Measure-Object).Count -lt 1)
+            {
+                Write-Information "Missing IPv4 addresses for system"
+            }
+
+            $addresses | Select-Object -First 1
+        } else {
+            $addresses
+        }
+    }
+}
+
+<#
+#>
 Function Invoke-ScriptRetry
 {
     [CmdletBinding()]
