@@ -2,6 +2,8 @@
 #>
 Function Invoke-ImpersonateUser
 {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '')]
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingUsernameAndPasswordParams', '')]
     [CmdletBinding()]
     param(
         [Parameter(mandatory=$true)]
@@ -53,14 +55,14 @@ namespace CustomProcess
         [DllImport("userenv.dll", SetLastError=true, CharSet=CharSet.Auto)]
         public static extern bool LoadUserProfile(IntPtr hToken, ref PROFILEINFO lpProfileInfo);
 
-        public static string Impersonate(string username, string password)
+        public static string Impersonate(string username, string domain, string password)
         {
 
             const int LOGON32_PROVIDER_DEFAULT = 0;
             const int LOGON32_LOGON_INTERACTIVE = 2;
             IntPtr token = IntPtr.Zero;
 
-            bool returnValue = LogonUser(username, System.Environment.MachineName, password,
+            bool returnValue = LogonUser(username, domain, password,
                 LOGON32_LOGON_INTERACTIVE, LOGON32_PROVIDER_DEFAULT,
                 out token);
 
@@ -96,6 +98,20 @@ namespace CustomProcess
 }
 '@
 
-        [CustomProcess.ProcessInvoker]::Impersonate($Username, $PasswordInPlaintext)
+        $domain = $null
+        $user = $Username
+        if ($Username.Contains("\"))
+        {
+            $split = $Username.Split("\")
+            if (($split | Measure-Object).Count -ne 2)
+            {
+                Write-Error "Username contains invalid number of '\' characters."
+            }
+
+            $domain = $split[0]
+            $user = $split[1]
+        }
+
+        [CustomProcess.ProcessInvoker]::Impersonate($user, $domain, $PasswordInPlaintext)
     }
 }
