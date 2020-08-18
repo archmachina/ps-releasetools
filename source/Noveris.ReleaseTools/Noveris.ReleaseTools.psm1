@@ -67,15 +67,19 @@ Function Get-VMIPv4Addresses
     process
     {
         $addresses = $VM.Guest.IPAddress -match "^.*[.].*[.].*[.].*$"
+        $addrCount = ($addresses | Measure-Object).Count
+        Write-Verbose "Found $addrCount addresses for VM"
 
         if ($First)
         {
-            if (($addresses | Measure-Object).Count -lt 1)
+            if ($addrCount -lt 1)
             {
-                Write-Information "Missing IPv4 addresses for system"
+                Write-Error "Missing IPv4 addresses for system"
             }
 
-            $addresses | Select-Object -First 1
+            $single = $addresses | Select-Object -First 1
+            Write-Verbose "First IPv4 address for VM: $single"
+            $single
         } else {
             $addresses
         }
@@ -107,7 +111,8 @@ Function Invoke-ScriptRetry
         while ($true)
         {
             try {
-                & $Script
+                $result = Invoke-Command -ScriptBlock $Script
+                $result
                 break
             } catch {
                 Write-Information "Error running script block (attempt $attempt): $_"
@@ -115,7 +120,7 @@ Function Invoke-ScriptRetry
                 {
                     throw $_
                 } else {
-                    $_ | Out-String
+                    Write-Information ("Error: " + ($_ | Out-String))
                 }
             }
 
