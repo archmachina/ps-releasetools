@@ -469,10 +469,10 @@ Function New-VMwareSession {
                         Write-Error "Invalid or no credentials supplied"
                     }
                 }
+            } else {
+                $netcred = [System.Net.NetworkCredential]::new($username, $password)
+                $Credential = [PSCredential]::new($netcred.Username, $netcred.SecurePassword)
             }
-
-            $netcred = [System.Net.NetworkCredential]::new($username, $password)
-            $Credential = [PSCredential]::new($netcred.Username, $netcred.SecurePassword)
         }
 
         # Install dependencies
