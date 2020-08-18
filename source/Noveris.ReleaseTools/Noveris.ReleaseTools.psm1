@@ -438,7 +438,10 @@ Function New-VMwareSession {
 
         [Parameter(mandatory=$false)]
         [ValidateNotNull()]
-        [PSCredential]$Credential
+        [PSCredential]$Credential,
+
+        [Parameter(mandatory=$false)]
+        [switch]$NoPrompt = $false
     )
 
     process
@@ -457,7 +460,15 @@ Function New-VMwareSession {
             $password = $Env:RELEASEENV_VCENTER_PASSWORD
             if ([string]::IsNullOrEmpty($username) -and [string]::IsNullOrEmpty($password))
             {
-                Write-Error "Missing Credential parameter and no credential environment variables set"
+                if ($NoPrompt)
+                {
+                    Write-Error "Missing Credential parameter, no credential environment variables set and prompting not allowed"
+                } else {
+                    $Credential = Get-Credential -Title "VMware Credentials"
+                    if ($Credential -eq $null) {
+                        Write-Error "Invalid or no credentials supplied"
+                    }
+                }
             }
 
             $netcred = [System.Net.NetworkCredential]::new($username, $password)
