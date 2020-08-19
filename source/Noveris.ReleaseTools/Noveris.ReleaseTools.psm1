@@ -400,7 +400,8 @@ Function Install-VMwareDependencies
                     Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force -Confirm:$false -Scope CurrentUser
                 } catch {
                     Write-Information "Couldn't install nuget package provider for current user"
-                    throw $_
+                    # Continue anyway - Doesn't seem required for powershell core on linux
+                    Write-Information ("Error: " + $_)
                 }
             }
         }
@@ -408,7 +409,11 @@ Function Install-VMwareDependencies
         Write-Information "Trusting PSGallery"
         if ($PSCmdlet.ShouldProcess("PSGallery Repository", "Trust"))
         {
-            Set-PSRepository -Name "PSGallery" -InstallationPolicy Trusted
+            try {
+                Set-PSRepository -Name "PSGallery" -InstallationPolicy Trusted
+            } catch {
+                Write-Information ("Set-PSRepository for PSGallery failed: " + $_)
+            }
         }
 
         if ($PSCmdlet.ShouldProcess("VMware.PowerCli", "Install"))
