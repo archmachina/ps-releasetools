@@ -384,7 +384,7 @@ Function Install-VMwareDependencies
             return
         } catch {
             # Could not import module, may need installation
-            Write-Verbose "Could not import VMware.VimAutomation.Core module"
+            Write-Information ("Could not import VMware.VimAutomation.Core module: " + $_) 
         }
 
         if ($PSCmdlet.ShouldProcess("Nuget Provider", "update"))
