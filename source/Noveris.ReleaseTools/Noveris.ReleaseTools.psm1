@@ -156,6 +156,18 @@ Function New-ReleaseEnvVM
             $notes += ":OSCustomizationSpec"
         }
 
+        # Apply datastore location, if supplied
+        if (![string]::IsNullOrEmpty($Env:RELEASEENV_VCENTER_DATASTORE) -and $newArgs.Keys -notcontains "Datastore")
+        {
+            $newArgs["Datastore"] = Get-Datastore $Env:RELEASEENV_VCENTER_DATASTORE
+        }
+
+        # Apply VMhost specification, if supplied
+        if (![string]::IsNullOrEmpty($Env:RELEASEENV_VCENTER_VMHOST) -and $newArgs.Keys -notcontains "VMHost")
+        {
+            $newArgs["VMHost"] = $Env:RELEASEENV_VCENTER_VMHOST
+        }
+
         $newArgs["Name"] = ("{0}-{1}" -f $Prefix, $newArgs["Name"])
         $newArgs["Notes"] = $notes
 
