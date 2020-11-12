@@ -14,7 +14,7 @@
     )
     
     # ID used to uniquely identify this module
-    GUID = 'd5a1a0ab-b8a9-4245-a7d2-c5c4c5bdb170'
+    GUID = '4289ac9c-c578-473a-be62-2d78715fc18f'
     
     # Author of this module
     Author = 'Noveris Pty Ltd'
@@ -26,7 +26,7 @@
     Copyright = '(c) 2019 Noveris Pty Ltd. All rights reserved.'
     
     # Description of the functionality provided by this module
-    Description = 'VMware Session module'
+    Description = 'Release support tools'
     
     # Minimum version of the Windows PowerShell engine required by this module
     PowerShellVersion = '5.1'
@@ -70,6 +70,16 @@
     
     # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
     FunctionsToExport = @(
+        'Get-VMIPv4Addresses',
+        'Invoke-ScriptRetry',
+        'New-ReleaseEnvVM',
+        'Get-ReleaseEnvPrefix',
+        'Start-ReleaseEnv',
+        'Get-ReleaseEnvVMs',
+        'Stop-ReleaseEnv',
+        'Install-VMwareDependencies',
+        'New-VMwareSession',
+        'Get-VMSourceSnapshot'
     )
     
     # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
