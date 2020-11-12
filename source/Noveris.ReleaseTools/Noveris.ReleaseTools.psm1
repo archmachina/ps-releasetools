@@ -151,7 +151,7 @@ Function New-ReleaseEnvVM
         $newArgs = New-Object 'System.Collections.Hashtable' -ArgumentList $VMArgs
 
         $notes = ("ReleaseEnv:{0}:AutoRemove" -f $Prefix)
-        if ($VMArgs.Keys -contains "OSCustomizationSpec" -and $VMArgs["OSCustomizationSpec"] -ne $null)
+        if ($VMArgs.Keys -contains "OSCustomizationSpec" -and $null -ne $VMArgs["OSCustomizationSpec"])
         {
             $notes += ":OSCustomizationSpec"
         }
@@ -487,7 +487,7 @@ Function New-VMwareSession {
                     Write-Error "Missing Credential parameter, no credential environment variables set and prompting not allowed"
                 } else {
                     $Credential = Get-Credential -Title "VMware Credentials"
-                    if ($Credential -eq $null) {
+                    if ($null -eq $Credential) {
                         Write-Error "Invalid or no credentials supplied"
                     }
                 }
