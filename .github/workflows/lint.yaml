@@ -1,8 +1,8 @@
-name: Latest
+name: Lint
 on:
   push:
     branches:
-      - main
+      - "main"
 
 jobs:
   build:
@@ -15,7 +15,8 @@ jobs:
         with:
           submodules: true
 
-      - name: Build
-        shell: pwsh
-        run: |
-          ./Build.ps1 -Stages Build
+      - name: "Super Linter"
+        uses: github/super-linter@v3
+        env:
+          DEFAULT_BRANCH: main
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
