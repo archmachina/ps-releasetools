@@ -1,8 +1,8 @@
-name: Latest
+name: VersionedBuild
 on:
   push:
-    branches:
-      - main
+    tags:
+      - "v*"
 
 jobs:
   build:
@@ -15,7 +15,9 @@ jobs:
         with:
           submodules: true
 
-      - name: Build
+      - name: Publish
         shell: pwsh
         run: |
-          ./Build.ps1 -Stages Build
+          ./Build.ps1 -Stages Build,Publish
+        env:
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
