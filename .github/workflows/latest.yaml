@@ -1,7 +1,7 @@
-name: Branch
+name: Latest
 on:
   push:
-    branches-ignore:
+    branches:
       - main
 
 jobs:
@@ -20,7 +20,6 @@ jobs:
         env:
           DEFAULT_BRANCH: main
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        continue-on-error: true
 
       - name: Build
         shell: pwsh
