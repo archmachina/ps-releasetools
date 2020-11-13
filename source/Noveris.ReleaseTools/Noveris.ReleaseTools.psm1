@@ -6,52 +6,6 @@ Set-StrictMode -Version latest
 
 <#
 #>
-Function Update-TargetDirectoryContent
-{
-    [CmdletBinding()]
-    param(
-        [Parameter(mandatory=$true)]
-        [ValidateNotNullOrEmpty()]
-        [string]$Source,
-
-        [Parameter(mandatory=$true)]
-        [ValidateNotNullOrEmpty()]
-        [string]$Destination
-    )
-
-    process
-    {
-        # Create the target if it doesn't exist and ignore error
-        New-Item -ItemType Directory $Destination -EA Ignore
-
-        # Check for source
-        if (!(Test-Path -Path $Source -PathType Container))
-        {
-            Write-Error "Source path does not exist or is not a directory"
-        }
-
-        # Check for target
-        if (!(Test-Path -Path $Destination -PathType Container))
-        {
-            Write-Error "Destination directory could not be created or is not a directory"
-        }
-
-        # Make the source and destination paths absolute
-        $Source = (Get-Item $Source).FullName
-        $Destination = (Get-Item $Destination).FullName
-
-        # Clear any files in the target directory
-        Write-Verbose "Clearing files in destination: $Destination"
-        Remove-Item ([System.IO.Path]::Combine($Destination, "*")) -Force -Recurse
-
-        # Copy source content
-        Write-Verbose "Copying content from source: $Source"
-        Copy-Item -Path ([System.IO.Path]::Combine($Source, "*")) -Destination $Destination -Recurse -Force -Confirm:$false
-    }
-}
-
-<#
-#>
 Function Get-VMIPv4Addresses
 {
     [CmdletBinding()]
