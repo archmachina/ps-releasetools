@@ -309,7 +309,7 @@ Function Start-ReleaseEnv
 #>
 Function Get-ReleaseEnvVMs
 {
-    [SuppressMessage('PSReviewUnusedParameter', '')]
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', '')]
     [CmdletBinding()]
     param(
         [Parameter(mandatory=$true)]
