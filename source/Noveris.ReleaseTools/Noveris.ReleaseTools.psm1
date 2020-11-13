@@ -309,6 +309,7 @@ Function Start-ReleaseEnv
 #>
 Function Get-ReleaseEnvVMs
 {
+    [SuppressMessage('PSReviewUnusedParameter', '')]
     [CmdletBinding()]
     param(
         [Parameter(mandatory=$true)]
