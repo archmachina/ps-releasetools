@@ -1,4 +1,4 @@
-name: VersionedBuild
+name: Versioned
 on:
   push:
     tags:

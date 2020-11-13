@@ -1,3 +1,4 @@
-# Noveris.ReleaseTools
+# ps-releasetools
+PowerShell Release Tools
 
-[![LatestBuild](https://github.com/noveris-inf/ps-releasetools/workflows/LatestBuild/badge.svg)](https://github.com/noveris-inf/ps-releasetools/actions?query=workflow%3ALatestBuild) [![LatestLint](https://github.com/noveris-inf/ps-releasetools/workflows/LatestLint/badge.svg)](https://github.com/noveris-inf/ps-releasetools/actions?query=workflow%3ALatestLint) [![VersionedBuild](https://github.com/noveris-inf/ps-releasetools/workflows/VersionedBuild/badge.svg)](https://github.com/noveris-inf/ps-releasetools/actions?query=workflow%3AVersionedBuild)
+[![Latest](https://github.com/noveris-inf/ps-releasetools/workflows/Latest/badge.svg)](https://github.com/noveris-inf/ps-releasetools/actions?query=workflow%3ALatest) [![Versioned](https://github.com/noveris-inf/ps-releasetools/workflows/Versioned/badge.svg)](https://github.com/noveris-inf/ps-releasetools/actions?query=workflow%3AVersioned)

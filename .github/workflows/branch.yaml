@@ -1,12 +1,15 @@
-name: LatestLint
+name: Branch
 on:
   push:
+    branches-ignore:
+      - main
+  pull_request:
     branches:
-      - "main"
+      - main
 
 jobs:
-  lint:
-    name: "lint"
+  build:
+    name: "Build"
     runs-on: ubuntu-latest
 
     steps:
@@ -20,3 +23,8 @@ jobs:
         env:
           DEFAULT_BRANCH: main
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build
+        shell: pwsh
+        run: |
+          ./Build.ps1 -Stages Build
