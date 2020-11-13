@@ -135,7 +135,7 @@ Function Invoke-ScriptRetry
 #>
 Function New-ReleaseEnvVM
 {
-    [CmdletBinding()]
+    [CmdletBinding(SupportsShouldProcess)]
     param(
         [Parameter(mandatory=$true)]
         [ValidateNotNullOrEmpty()]
@@ -148,7 +148,7 @@ Function New-ReleaseEnvVM
 
     process
     {
-        $newArgs = New-Object 'System.Collections.Hashtable' -ArgumentList $VMArgs
+        $newArgs = $VMArgs.Clone()
 
         $notes = ("ReleaseEnv:{0}:AutoRemove" -f $Prefix)
         if ($VMArgs.Keys -contains "OSCustomizationSpec" -and $null -ne $VMArgs["OSCustomizationSpec"])
@@ -171,7 +171,10 @@ Function New-ReleaseEnvVM
         $newArgs["Name"] = ("{0}-{1}" -f $Prefix, $newArgs["Name"])
         $newArgs["Notes"] = $notes
 
-        New-VM @newArgs
+        if ($PSCmdlet.ShouldProcess($newArgs["Name"], "Create"))
+        {
+            New-VM @newArgs
+        }
     }
 }
 
@@ -214,7 +217,7 @@ enum VMCustomiseState {
 #>
 Function Start-ReleaseEnv
 {
-    [CmdletBinding()]
+    [CmdletBinding(SupportsShouldProcess)]
     param(
         [Parameter(mandatory=$true)]
         [ValidateNotNullOrEmpty()]
@@ -230,12 +233,18 @@ Function Start-ReleaseEnv
         $vms = Get-ReleaseEnvVMs -Prefix $Prefix
 
         # Start all VMs
+        $list = @()
         $vms | ForEach-Object {
             $name = $_.Name
 
-            Write-Information "Starting VM: $name"
-            $_ | Start-VM | Out-Null
+            if ($PSCmdlet.ShouldProcess($_.Name, "Start"))
+            {
+                Write-Information "Starting VM: $name"
+                $list += $_
+                $_ | Start-VM | Out-Null
+            }
         }
+        $vms = $list
 
         # Only work on VMs that had an OSCustomisationSpec applied
         $vms = $vms | Where-Object {$_.Notes.Contains("OSCustomizationSpec")}
@@ -314,7 +323,7 @@ Function Start-ReleaseEnv
         if (($unknown | Measure-Object).Count -gt 0)
         {
             $deployFailed = $true
-            Write-Information ("VMs never started customisation: " + ($unknown.Name -join ", ")) 
+            Write-Information ("VMs never started customisation: " + ($unknown.Name -join ", "))
         }
 
         # Check if we had any unfinished VMs
@@ -322,7 +331,7 @@ Function Start-ReleaseEnv
         if (($started | Measure-Object).Count -gt 0)
         {
             $deployFailed = $true
-            Write-Information ("VMs started, but did not finish customisation: " + ($started.Name -join ", ")) 
+            Write-Information ("VMs started, but did not finish customisation: " + ($started.Name -join ", "))
         }
 
         # Check if we had any failures
@@ -330,7 +339,7 @@ Function Start-ReleaseEnv
         if (($failed | Measure-Object).Count -gt 0)
         {
             $deployFailed = $true
-            Write-Information ("VMs failed customisation: " + ($failed.Name -join ", ")) 
+            Write-Information ("VMs failed customisation: " + ($failed.Name -join ", "))
         }
 
         if ($deployFailed)
@@ -363,7 +372,7 @@ Function Get-ReleaseEnvVMs
 #>
 Function Stop-ReleaseEnv
 {
-    [CmdletBinding()]
+    [CmdletBinding(SupportsShouldProcess)]
     param(
         [Parameter(mandatory=$true)]
         [ValidateNotNullOrEmpty()]
@@ -373,14 +382,18 @@ Function Stop-ReleaseEnv
     process
     {
         Get-ReleaseEnvVMs -Prefix $Prefix | Where-Object {$_.Notes.Contains("AutoRemove")} | ForEach-Object {
-            Write-Information "Stopping VM: $_"
-            Stop-VM $_ -Confirm:$false -EA Ignore | Out-Null
-            Start-Sleep 1
-            Write-Information "Removing VM: $_"
-            Remove-VM -DeletePermanently -Confirm:$false $_ | Out-Null
+            if ($PSCmdlet.ShouldProcess($_.Name, "DELETE"))
+            {
+                Write-Information "Stopping VM: $_"
+                Stop-VM $_ -Confirm:$false -EA Ignore | Out-Null
+                Start-Sleep 1
+                Write-Information "Removing VM: $_"
+                Remove-VM -DeletePermanently -Confirm:$false $_ | Out-Null
+            }
         }
     }
 }
+
 <#
 #>
 Function Install-VMwareDependencies
@@ -396,7 +409,7 @@ Function Install-VMwareDependencies
             return
         } catch {
             # Could not import module, may need installation
-            Write-Information ("Could not import VMware.VimAutomation.Core module: " + $_) 
+            Write-Information ("Could not import VMware.VimAutomation.Core module: " + $_)
         }
 
         if ($PSCmdlet.ShouldProcess("Nuget Provider", "update"))
