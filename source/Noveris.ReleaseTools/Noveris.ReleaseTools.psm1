@@ -311,7 +311,7 @@ Function Get-ReleaseEnvVMs
 {
     [CmdletBinding()]
     param(
-        [Parameter(mandatory=$false)]
+        [Parameter(mandatory=$true)]
         [ValidateNotNullOrEmpty()]
         [string]$Prefix
     )
