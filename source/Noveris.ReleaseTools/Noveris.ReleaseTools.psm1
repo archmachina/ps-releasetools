@@ -1,8 +1,14 @@
+
 ################
 # Global settings
 $ErrorActionPreference = "Stop"
 $InformationPreference = "Continue"
-Set-StrictMode -Version latest
+Set-StrictMode -Version 2
+
+Import-Module ([System.IO.Path]::Combine($PSScriptRoot, "Noveris.ModuleMgmt.psm1"))
+
+Remove-Module VMware.VimAutomation.Core -EA SilentlyContinue
+Import-Module -Name VMware.VimAutomation.Core -RequiredVersion (Install-PSModuleWithSpec -Name VMware.VimAutomation.Core -Major 12)
 
 <#
 #>
