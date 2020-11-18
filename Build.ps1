@@ -40,14 +40,6 @@ Invoke-BuildStage -Name "Build" -Filters $Stages -Script {
     Format-TemplateFile -Template source/Noveris.ReleaseTools.psd1.tpl -Target source/Noveris.ReleaseTools/Noveris.ReleaseTools.psd1 -Content @{
         __FULLVERSION__ = $version.Full
     }
-
-    # Copy modulemgmt to release tools to include in module
-    Write-Information "Copy ModuleMgmt to source directory"
-    Copy-Item ./Noveris.ModuleMgmt/source/Noveris.ModuleMgmt/Noveris.ModuleMgmt.psm1 ./source/Noveris.ReleaseTools/
-
-    # Attempt to import the module
-    Write-Information "Attempting to import module"
-    Import-Module ./source/Noveris.ReleaseTools -EA Stop
 }
 
 Invoke-BuildStage -Name "Publish" -Filters $Stages -Script {

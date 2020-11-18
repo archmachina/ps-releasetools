@@ -48,6 +48,7 @@
     
     # Modules that must be imported into the global environment prior to importing this module
     RequiredModules = @(
+        @{"ModuleName"="VMware.VimAutomation.Core";"RequiredVersion"="12.1.0.16997984"}
     )
     
     # Assemblies that must be loaded prior to importing this module

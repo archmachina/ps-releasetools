@@ -1,14 +1,11 @@
 
+#Requires -Modules @{"ModuleName"="VMware.VimAutomation.Core";"RequiredVersion"="12.1.0.16997984"}
+
 ################
 # Global settings
 $ErrorActionPreference = "Stop"
 $InformationPreference = "Continue"
 Set-StrictMode -Version 2
-
-Import-Module ([System.IO.Path]::Combine($PSScriptRoot, "Noveris.ModuleMgmt.psm1"))
-
-Remove-Module VMware.VimAutomation.Core -EA SilentlyContinue
-Import-Module -Name VMware.VimAutomation.Core -RequiredVersion (Install-PSModuleWithSpec -Name VMware.VimAutomation.Core -Major 12)
 
 <#
 #>
