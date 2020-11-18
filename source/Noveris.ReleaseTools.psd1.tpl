@@ -77,7 +77,6 @@
         'Start-ReleaseEnv',
         'Get-ReleaseEnvVMs',
         'Stop-ReleaseEnv',
-        'Install-VMwareDependencies',
         'New-VMwareSession',
         'Get-VMSourceSnapshot'
     )
