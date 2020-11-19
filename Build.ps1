@@ -41,9 +41,21 @@ Invoke-BuildStage -Name "Build" -Filters $Stages -Script {
         __FULLVERSION__ = $version.Full
     }
 
+    # Trust powershell gallery
+    Write-Information "Setup for access to powershell gallery"
+    Use-PowerShellGallery
+
+    # Install any dependencies for the module manifest
+    Write-Information "Installing required dependencies from manifest"
+    Install-PSModuleFromManifest -ManifestPath source/Noveris.ReleaseTools/Noveris.ReleaseTools.psd1
+
     # Test the module manifest
     Write-Information "Testing module manifest"
     Test-ModuleManifest source/Noveris.ReleaseTools/Noveris.ReleaseTools.psd1
+
+    # Import modules as test
+    Write-Information "Importing module"
+    Import-Module ./source/Noveris.ReleaseTools/Noveris.ReleaseTools.psm1
 }
 
 Invoke-BuildStage -Name "Publish" -Filters $Stages -Script {
