@@ -400,10 +400,6 @@ Function New-VMwareSession {
             }
         }
 
-        # Install dependencies
-        Write-Information "Importing VMware PowerCLI module"
-        Install-VMwareDependencies
-
         if ($PSCmdlet.ShouldProcess("vCenter", "Connect"))
         {
             # Disconnect any existing instances
