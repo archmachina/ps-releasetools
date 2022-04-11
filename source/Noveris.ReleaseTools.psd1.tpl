@@ -17,13 +17,13 @@
     GUID = '4289ac9c-c578-473a-be62-2d78715fc18f'
 
     # Author of this module
-    Author = 'Noveris Pty Ltd'
+    Author = 'Jesse Reichman'
 
     # Company or vendor of this module
-    CompanyName = 'Noveris Pty Ltd'
+    CompanyName = 'ArchMachina'
 
     # Copyright statement for this module
-    Copyright = '(c) 2019 Noveris Pty Ltd. All rights reserved.'
+    Copyright = '(c) 2020 Jesse Reichman. All rights reserved.'
 
     # Description of the functionality provided by this module
     Description = 'Release support tools'
@@ -115,10 +115,10 @@
             )
 
             # A URL to the license for this module.
-            LicenseUri = 'https://github.com/noveris-inf/ps-releasetools/blob/main/LICENSE'
+            LicenseUri = 'https://github.com/archmachina/ps-releasetools/blob/main/LICENSE'
 
             # A URL to the main website for this project.
-            ProjectUri = 'https://github.com/noveris-inf/ps-releasetools'
+            ProjectUri = 'https://github.com/archmachina/ps-releasetools'
 
             # A URL to an icon representing this module.
             # IconUri = ''
