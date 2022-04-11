@@ -329,4 +329,4 @@ ASALocalRun/
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
 
-source/Noveris.ReleaseTools/Noveris.ReleaseTools.psd1
+source/ReleaseTools/ReleaseTools.psd1
