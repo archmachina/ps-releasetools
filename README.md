@@ -1,4 +1,6 @@
 # ps-releasetools
 PowerShell Release Tools
 
-[![Latest](https://github.com/archmachina/ps-releasetools/workflows/Latest/badge.svg)](https://github.com/archmachina/ps-releasetools/actions?query=workflow%3ALatest) [![Versioned](https://github.com/archmachina/ps-releasetools/workflows/Versioned/badge.svg)](https://github.com/archmachina/ps-releasetools/actions?query=workflow%3AVersioned)
+[![latest](https://github.com/archmachina/ps-releasetools/workflows/latest/badge.svg)](https://github.com/archmachina/ps-releasetools/actions?query=workflow%3Alatest)
+[![release](https://github.com/archmachina/ps-releasetools/workflows/release/badge.svg)](https://github.com/archmachina/ps-releasetools/actions?query=workflow%3Arelease)
+[![linting](https://github.com/archmachina/ps-releasetools/workflows/linting/badge.svg)](https://github.com/archmachina/ps-releasetools/actions?query=workflow%3Alinting)
